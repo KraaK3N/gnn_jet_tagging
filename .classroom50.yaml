@@ -1,0 +1,8 @@
+schema: "classroom50/repo-config/v1"
+classroom: "cs6012"
+assignment: "codebased"
+secret: "dlpg"
+owner:
+  username: "KraaK3N"
+  id: 99243523
+  accepted_at: "2026-10-25T16:17:25Z"
