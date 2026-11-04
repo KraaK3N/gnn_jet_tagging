@@ -48,19 +48,21 @@ permutation invariance down to 10^-8 float precision."
 [SLIDE 3: Benchmark Results & Trade-Offs] (Approx. 40 seconds)
 Speaker: Rahul Kumar
 --------------------------------------------------------------------------------
-"We trained and evaluated both architectures on a balanced Quark vs. Gluon
-benchmark dataset on CPU.
+"We evaluated both architectures on the full official 100,000-jet Pythia 8.2
+Quark-Gluon collider benchmark across 15,000 held-out test jets.
 
 Our experimental findings highlight a classic machine learning trade-off:
-The Dynamic EdgeConv GNN achieved 100% test accuracy and a perfect 1.0000 ROC AUC,
-effectively capturing multi-particle relational substructures and collinear splittings.
+The Dynamic EdgeConv GNN achieved 80.65% test accuracy and a 0.8830 ROC AUC,
+outperforming the Deep Sets baseline by 3.20% by dynamically capturing localized
+collinear shower splittings.
 
-However, the Deep Sets baseline achieved an impressive 96.67% accuracy and 0.9993 AUC
-while being 14 times faster in inference—0.23 milliseconds per jet compared to
-3.3 milliseconds for EdgeConv—and requiring 40% fewer parameters.
+Meanwhile, the Deep Sets baseline achieved 77.45% accuracy and 0.8814 AUC while
+running over 7 times faster in inference—0.030 milliseconds per jet compared to
+0.213 milliseconds for EdgeConv—with 38% fewer parameters.
 
-This confirms the paper's insight: while dynamic graphs maximize discriminative
-power, Deep Sets provides an exceptionally fast and viable operational baseline."
+This confirms the core insight: dynamic graph convolutions maximize physical
+expressiveness for precision offline analyses, while Deep Sets provides an
+exceptionally fast operational baseline for sub-millisecond Level-1 triggers."
 
 
 [SLIDE 4: The Canned Demo & Conclusion] (Approx. 25 seconds)

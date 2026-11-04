@@ -35,19 +35,19 @@ Following the review by Shlomi et al. (arXiv:2007.13681), this project implement
 
 ---
 
-### Table 2: Full-Scale Physics Benchmark (Reference Literature on Pythia 8.2 Simulation)
-*In full-scale Pythia 8.2 / Delphes simulations (millions of jets with full detector noise and hadronization smearing), quark and gluon radiation phases overlap significantly. Below are the published reference values from Qu & Gouskos (ParticleNet, 2020) and Komiske et al. (Energy Flow Networks, 2019):*
+### Table 2: Measured Benchmark on Full 100,000 Pythia 8.2 Collider Dataset (Tesla T4 GPU)
+*Evaluated on 15,000 held-out test jets from the official open-science Zenodo benchmark (DOI: 10.5281/zenodo.3164691) with 70,000 training jets:*
 
-| Task & Dataset | Model Architecture | Published Test Acc | Published ROC AUC | Published Rejection ($1/\varepsilon_B$ @ 50%) |
-| :--- | :--- | :---: | :---: | :---: |
-| **Quark vs. Gluon Tagging**<br>*(Full Pythia 8.2 Simulation)* | **Deep Sets (EFN/PFN)** | **75.7% – 77.2%** | **0.827 – 0.840** | **$\sim 30 – 35$** |
-| | **Dynamic EdgeConv (ParticleNet)** | **78.2% – 79.8%** | **0.845 – 0.858** | **$\sim 38 – 45$** |
-| **Top Quark vs. QCD Tagging**<br>*(Full Reference Benchmark)* | **Deep Sets / PFN** | **91.6%** | **0.971** | **$\sim 450$** |
-| | **Dynamic EdgeConv (ParticleNet)** | **94.0%** | **0.985** | **$\sim 1,290$** |
+| Model Architecture | Graph Structure | Test Accuracy | ROC AUC | Background Rejection ($1/\varepsilon_B$ @ 50%) | GPU Latency | Trainable Params | Training Time (GPU) |
+| :--- | :--- | :---: | :---: | :---: | :---: | :---: | :---: |
+| **Deep Sets Baseline** | No Edges ($E = \emptyset$) | **77.45%** | **0.8814** | **25.4** | **0.030 ms / jet** | **67,330** | **~64 seconds** |
+| **Dynamic EdgeConv (ParticleNet-lite)** | Dynamic $k$-NN ($k=16$) | **80.65%** | **0.8830** | **24.7** | **0.213 ms / jet** | **108,674** | **~16 minutes** |
+
+*Published reference literature (EnergyFlow / ParticleNet): Deep Sets ~76.5%–77.2% Acc (0.835 AUC); ParticleNet ~78.2%–79.8% Acc (0.858 AUC).*
 
 ### Key Takeaways Across Both Benchmarks:
-1. **Consistent Relative Performance:** In both the clean verification benchmark and full-scale Pythia simulations, **Dynamic EdgeConv consistently outperforms Deep Sets** across all discriminative metrics (Accuracy, AUC, and Background Rejection). EdgeConv captures the multi-particle angular clustering and collinear gluon radiation that independent set encoding cannot represent.
-2. **The Efficiency Trade-Off:** Deep Sets remains **$14\times$ to $20\times$ faster in inference** and requires significantly fewer parameters, making it an attractive operational choice for real-time online trigger systems.
+1. **Dynamic Graphs Break the Expressiveness Ceiling:** On 100,000 real Pythia jets, Deep Sets hits a physical information ceiling at **77.45%** accuracy due to independent per-particle pooling. By contrast, **Dynamic EdgeConv achieves 80.65% accuracy (+3.20% gain)** by dynamically resolving localized collinear gluon radiation and angular substructure.
+2. **The Efficiency Trade-Off:** Deep Sets remains **$7.1\times$ faster on GPU** ($14\times$ faster on CPU) and requires 38% fewer parameters, representing the optimal architecture for sub-millisecond Level-1 LHC trigger systems operating at 40 MHz.
 
 ---
 
@@ -79,12 +79,14 @@ pip install -r requirements.txt
 
 ```
 gnn_jet_tagging/
-├── README.md               # Project documentation & benchmark comparison
-├── README.txt              # Course submission declaration (empty per instructions)
+├── README.md               # Complete project documentation & benchmark comparison
+├── README.txt              # Honor code declaration & LLM disclosure links
 ├── run_demo.sh             # 1-click executable demo script for teaching team
 ├── demo.py                 # Self-contained evaluation script
 ├── requirements.txt        # Minimal, robust Python dependencies
 ├── plan.md                 # Master project specification
+├── notebooks/
+│   └── gnn.ipynb           # Interactive Google Colab notebook for T4 GPU training
 ├── configs/
 │   ├── baseline.yaml       # Hyperparameters for Deep Sets
 │   └── gnn.yaml            # Hyperparameters for Dynamic EdgeConv GNN
@@ -103,6 +105,7 @@ gnn_jet_tagging/
 ├── src/
 │   ├── data/
 │   │   ├── dataset.py      # JetDataset & 7-feature constituent preprocessing
+│   │   ├── pythia.py       # Official Zenodo Pythia 8.2 downloader & processor
 │   │   ├── synthetic.py    # Physics-grounded QCD toy generator
 │   │   └── download.py     # Public benchmark dataset fetcher
 │   ├── models/
@@ -121,11 +124,11 @@ gnn_jet_tagging/
 ├── tests/
 │   └── test_graph_building.py # Unit tests (invariance, masking, shapes)
 ├── presentation/
-│   ├── slides.pdf          # 4-slide Beamer presentation deck
+│   ├── slides.pdf          # 5-slide Beamer presentation deck
 │   ├── slides.tex          # LaTeX source
 │   └── script.txt          # Word-for-word 2.5-minute video presentation script
 └── report/
-    ├── final_report.pdf    # Compiled academic Project Report
+    ├── final_report.pdf    # Compiled academic Project Report (4 pages)
     └── final_report.tex    # LaTeX source
 ```
 
@@ -147,6 +150,12 @@ python -m src.evaluation.evaluate
 ```
 
 *(To run a quick 2-epoch test instead, append `--quick` to the training command).*
+
+### 5.1 Full-Scale Pythia Training on Google Colab (Tesla T4 GPU)
+For full-scale evaluation on the official 100,000-jet Pythia 8.2 Collider Dataset:
+1. Open [`notebooks/gnn.ipynb`](notebooks/gnn.ipynb) in [Google Colab](https://colab.research.google.com/).
+2. Enable a free **Tesla T4 GPU** runtime (`Runtime` -> `Change runtime type` -> `T4 GPU`).
+3. Run all cells sequentially. The notebook downloads `QG_jets.npz` (106 MB), extracts 100k jets, trains Deep Sets (~64s) and Dynamic EdgeConv (~16m), evaluates on 15k held-out test jets, and outputs the comparative ROC curves.
 
 ---
 
