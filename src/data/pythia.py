@@ -53,7 +53,7 @@ def download_raw_pythia(dest_path: str = "data/raw/QG_jets.npz"):
 
 def load_and_preprocess_pythia(
     raw_npz_path: str = "data/raw/QG_jets.npz",
-    num_jets: int = 20000,
+    num_jets: int = 100000,
     seed: int = 42,
 ):
     """
@@ -61,7 +61,7 @@ def load_and_preprocess_pythia(
 
     Args:
         raw_npz_path: Path to QG_jets.npz
-        num_jets: Number of jets to extract (e.g. 20,000 for 10% slice)
+        num_jets: Number of jets to extract (default 100,000 for full benchmark)
         seed: Random seed for shuffling
 
     Returns:
@@ -78,7 +78,7 @@ def load_and_preprocess_pythia(
     X = data["X"][:num_jets]  # shape: (N, max_particles, 4) -> [pt, y, phi, pdgid]
     y = data["y"][:num_jets]  # shape: (N,) -> 1 = Quark, 0 = Gluon
 
-    print(f"[*] Sliced {len(y)} real Pythia jets.")
+    print(f"[*] Loaded full {len(y)} real Pythia jets.")
 
     # Constituent variables
     pt = X[:, :, 0].astype(np.float32)
@@ -112,13 +112,13 @@ def load_and_preprocess_pythia(
 
 
 def prepare_pythia_dataset(
-    output_path: str = "data/pythia_20k.npz",
+    output_path: str = "data/pythia_100k.npz",
     sample_output_path: str = "data/sample_jets.npz",
-    num_jets: int = 20000,
+    num_jets: int = 100000,
     seed: int = 42,
 ):
     """
-    Generates the processed 20k Pythia dataset and updates the 1k sample slice for demo.
+    Generates the processed 100k Pythia dataset and updates the 1k sample slice for demo.
     """
     os.makedirs(os.path.dirname(output_path), exist_ok=True)
     features, coordinates, mask, labels = load_and_preprocess_pythia(
@@ -126,7 +126,7 @@ def prepare_pythia_dataset(
         seed=seed,
     )
 
-    print(f"[*] Saving processed {num_jets}-jet Pythia dataset to {output_path}...")
+    print(f"[*] Saving processed full {num_jets}-jet Pythia dataset to {output_path}...")
     np.savez_compressed(
         output_path,
         features=features,
@@ -146,8 +146,8 @@ def prepare_pythia_dataset(
             labels=labels[:1000],
         )
 
-    print("[✓] Real Pythia data preparation complete!")
+    print("[✓] Full real Pythia 100k data preparation complete!")
 
 
 if __name__ == "__main__":
-    prepare_pythia_dataset(num_jets=20000)
+    prepare_pythia_dataset(num_jets=100000)
