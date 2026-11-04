@@ -1,0 +1,30 @@
+# Hyperparameter Configuration: Dynamic EdgeConv GNN (ParticleNet-lite)
+model_type: "gnn"
+model_name: "Dynamic EdgeConv (ParticleNet-lite)"
+data_path: "data/sample_jets.npz"
+
+training:
+  batch_size: 32
+  epochs: 15
+  learning_rate: 0.0015
+  weight_decay: 0.0001
+  scheduler_step: 5
+  scheduler_gamma: 0.5
+  seed: 42
+
+model:
+  input_dim: 7
+  num_classes: 2
+  conv_params:
+    - [64, 16]
+    - [128, 16]
+    - [128, 16]
+  fc_params: [128, 64]
+  k: 16
+  dynamic: true
+  dropout: 0.1
+
+output:
+  checkpoint_dir: "checkpoints"
+  checkpoint_filename: "edgeconv_best.pt"
+  figure_dir: "results/figures"

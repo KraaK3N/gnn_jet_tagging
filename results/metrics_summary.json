@@ -1,0 +1,20 @@
+{
+  "Deep Sets Baseline": {
+    "accuracy": 96.66666666666667,
+    "auc": 0.9992887624466572,
+    "r50_background_rejection": 10000.0,
+    "r30_background_rejection": 10000.0,
+    "latency_ms_per_jet": 0.23034014166493458,
+    "num_parameters": 67330,
+    "f1_score": 0.967741935483871
+  },
+  "Dynamic EdgeConv (ParticleNet-lite)": {
+    "accuracy": 100.0,
+    "auc": 1.0,
+    "r50_background_rejection": 10000.0,
+    "r30_background_rejection": 10000.0,
+    "latency_ms_per_jet": 3.7237966906256283,
+    "num_parameters": 108674,
+    "f1_score": 1.0
+  }
+}
