@@ -1,0 +1,122 @@
+================================================================================
+CS6012 COURSE PROJECT: 2.5-MINUTE RESULT & CODE WALKTHROUGH VIDEO SCRIPT
+Title: Learned GNN Physics Simulator for Particle Jet Tagging
+Group 11: Rahul Kumar (25M2015) & Pradipta Sadhukhan (25D1080)
+Supervisor: Prof. Sharat Chandran | IIT Bombay
+Reference: Shlomi, Battaglia, & Vlimant (arXiv:2007.13681)
+GitHub: https://github.com/KraaK3N/gnn_jet_tagging
+Total Estimated Runtime: ~2 minutes 30 seconds (~340 spoken words)
+================================================================================
+
+[HOW TO RECORD]:
+- Recommended tools: OBS Studio, SimpleScreenRecorder, or Google Meet recording.
+- Windows/tabs needed:
+    Tab 1: Slide Deck (presentation/slides.pdf) - Slide 1.
+    Tab 2: Code Editor (VS Code) showing project tree & model definitions.
+    Tab 3: Terminal to execute './run_demo.sh'.
+    Tab 4: Colab Notebook (notebooks/gnn.ipynb) or report/figures.
+
+--------------------------------------------------------------------------------
+PART 1: TITLE & PROBLEM FORMULATION (0:00 – 0:25) [~25 seconds]
+--------------------------------------------------------------------------------
+[VISUAL ON SCREEN]:
+Display Slide 1 from 'presentation/slides.pdf' (or title card showing project title,
+group members Rahul Kumar & Pradipta Sadhukhan, Prof. Sharat Chandran, IIT Bombay).
+
+[SPOKEN SCRIPT]:
+"Hello everyone. We are Group 11: Rahul Kumar and Pradipta Sadhukhan, presenting our
+CS6012 project: 'Learned GNN Physics Simulator for Particle Jet Tagging', guided by
+Professor Sharat Chandran and based on the CERN review paper arXiv:2007.13681.
+
+In high-energy collider physics at the LHC, quarks and gluons hadronize into collimated
+sprays of particles known as jets. Tagging the initiating particle is essential for
+discovering new physics. While traditional approaches forced jets into artificial 2D
+image grids for CNNs or arbitrary sequences for RNNs, Graph Neural Networks naturally
+treat jets as permutation-invariant point clouds."
+
+--------------------------------------------------------------------------------
+PART 2: CODEBASE ARCHITECTURE & INNOVATIONS (0:25 – 1:00) [~35 seconds]
+--------------------------------------------------------------------------------
+[VISUAL ON SCREEN]:
+Switch to VS Code / File Tree showing 'src/data', 'src/models', and 'tests'.
+Briefly click on 'src/models/gnn.py' or 'src/models/baseline.py'.
+
+[SPOKEN SCRIPT]:
+"Let's look at the codebase architecture:
+Under 'src/data/', our pipeline extracts 7 physical features per constituent: cyclic
+relative coordinates delta-eta and delta-phi, log transverse momentum and energy, relative
+momentum fractions, and delta-R, coupled with dynamic masking for variable jet lengths.
+
+Under 'src/models/', we implement two contrasting architectures:
+First, a permutation-invariant Deep Sets baseline with O(N) complexity using particle
+projections and masked global pooling.
+Second, ParticleNet-Lite: a Dynamic EdgeConv GNN. Instead of relying on a static graph,
+it recomputes k-nearest neighbor graphs in latent space dynamically at every layer,
+learning relational substructure. We implemented this in pure vectorized PyTorch,
+eliminating fragile external C++ dependencies.
+
+Both models pass automated unit tests proving exact mathematical permutation invariance
+down to machine precision (ten to the minus eight)."
+
+--------------------------------------------------------------------------------
+PART 3: LIVE CANNED DEMO EXECUTION (1:00 – 1:45) [~45 seconds]
+--------------------------------------------------------------------------------
+[VISUAL ON SCREEN]:
+Switch to Terminal in the repository root. Type and run:
+    ./run_demo.sh
+Watch the ASCII table appear in < 10 seconds, then open:
+    results/figures/demo_roc_curve.png
+
+[SPOKEN SCRIPT]:
+"Now let's run the teaching team's canned demo using a single command:
+'./run_demo.sh'.
+
+[Run the script live: ./run_demo.sh]
+
+In under 10 seconds on a standard laptop CPU, the demo validates the environment,
+loads pre-trained weights, and evaluates the models on the benchmark test slice.
+
+As seen in this output table:
+- Dynamic EdgeConv achieves superior accuracy and near-perfect AUC by capturing
+  relational substructure.
+- Deep Sets demonstrates ultra-fast inference: just 0.37 milliseconds per jet—nearly
+  ten times faster than EdgeConv. This highlights the classic physics trade-off
+  between expressive capacity and low-latency trigger requirements.
+
+The demo also automatically outputs this publication-ready ROC curve in the
+results folder."
+
+--------------------------------------------------------------------------------
+PART 4: REAL PYTHIA 8.2 SCALING & COLAB GPU BENCHMARK (1:45 – 2:15) [~30 seconds]
+--------------------------------------------------------------------------------
+[VISUAL ON SCREEN]:
+Switch to Google Colab showing 'notebooks/gnn.ipynb' or display the official
+Pythia 8.2 ROC curve from 'results/figures/roc_curve.png' / Slide 3.
+
+[SPOKEN SCRIPT]:
+"Beyond the lightweight canned demo, we validated both models at realistic scale on the
+official Pythia 8.2 collider dataset from Zenodo, containing 100,000 genuine simulated
+events, executed on a Tesla T4 GPU via our interactive Colab notebook 'gnn.ipynb'.
+
+On the realistic Pythia collider benchmark:
+- Dynamic EdgeConv achieves 80.65% test accuracy and 0.883 AUC, outperforming Deep Sets
+  at 77.45% by over plus-3.2%.
+- This confirms that inter-particle relational features and gluon-splitting correlations
+  contain significant discriminative power that no-edge set architectures cannot exploit."
+
+--------------------------------------------------------------------------------
+PART 5: CONCLUSION & DELIVERABLES (2:15 – 2:30) [~15 seconds]
+--------------------------------------------------------------------------------
+[VISUAL ON SCREEN]:
+Switch back to Slide 4 or show GitHub repository 'github.com/KraaK3N/gnn_jet_tagging'
+and 'report/final_report.pdf'.
+
+[SPOKEN SCRIPT]:
+"In conclusion, all course deliverables are complete:
+1. A fully commented, modular PyTorch repository on GitHub.
+2. A single-command reproducible canned demo running on CPU in under 10 seconds.
+3. Interactive Colab GPU training for realistic Pythia scale.
+4. And our compiled 4-page academic final report.
+
+Thank you!"
+================================================================================
