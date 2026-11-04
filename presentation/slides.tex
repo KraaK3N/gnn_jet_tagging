@@ -103,7 +103,7 @@
 % -------------------------------------------------------------
 % SLIDE 3: Benchmark Results
 % -------------------------------------------------------------
-\begin{frame}{3. Comparative Benchmark Results}
+\begin{frame}{3. Comparative Benchmark Results (100,000 Pythia 8.2 Jets)}
   \begin{columns}[T]
     \column{0.55\textwidth}
       \small
@@ -111,22 +111,22 @@
         \toprule
         \textbf{Architecture} & \textbf{Acc} & \textbf{AUC} & \textbf{Latency} & \textbf{Params} \\
         \midrule
-        \textbf{Deep Sets} & 96.67\% & 0.9993 & \textbf{0.23 ms} & \textbf{67k} \\
-        \textbf{EdgeConv GNN} & \textbf{100.0\%} & \textbf{1.0000} & 3.31 ms & 108k \\
+        \textbf{Deep Sets} & 77.45\% & 0.8814 & \textbf{0.03 ms} & \textbf{67k} \\
+        \textbf{EdgeConv GNN} & \textbf{80.65\%} & \textbf{0.8830} & 0.21 ms & 108k \\
         \bottomrule
       \end{tabular}
 
       \vspace{10pt}
       \textbf{Key Insights:}
       \begin{itemize}\footnotesize
-        \item \textbf{Discriminative Power}: Dynamic EdgeConv captures relational substructure, reaching 100\% test accuracy and 1.0000 AUC.
-        \item \textbf{Efficiency Trade-off}: Deep Sets achieves $>96\%$ accuracy while running \textbf{$14\times$ faster} in inference and requiring $38\%$ fewer parameters.
+        \item \textbf{Discriminative Power}: Dynamic EdgeConv captures relational substructure, reaching \textbf{80.65\% accuracy} (+3.2\% over Deep Sets) on 15,000 held-out Pythia test jets.
+        \item \textbf{Efficiency Trade-off}: Deep Sets achieves \textbf{77.45\% accuracy} while running \textbf{$7\times$ faster} in inference ($0.03$\,ms/jet) with $38\%$ fewer parameters.
       \end{itemize}
 
     \column{0.45\textwidth}
       \centering
       \includegraphics[width=0.95\textwidth]{../results/figures/roc_curve.png}\\[-4pt]
-      {\tiny Figure: Comparative ROC Curves}
+      {\tiny Figure: True Pythia 8.2 ROC Curves (100k Jets)}
   \end{columns}
 \end{frame}
 
@@ -156,7 +156,7 @@
   \end{columns}
   \vspace{12pt}
   \centering \textbf{Thank You!}\\[4pt]
-  {\scriptsize GitHub Repository: \texttt{github.com/SADHUKHAN-PRADIPTA/gnn-jet-tagging}}
+  {\scriptsize GitHub Repository: \texttt{github.com/KraaK3N/gnn\_jet\_tagging}}
 \end{frame}
 
 \end{document}
