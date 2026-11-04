@@ -35,6 +35,8 @@ except ImportError:
 
 from src.data.dataset import preprocess_constituents
 
+ZENODO_QG_URL = "https://zenodo.org/records/3164691/files/QG_jets.npz?download=1"
+
 
 def download_raw_pythia(dest_path: str = "data/raw/QG_jets.npz"):
     """Downloads the official 100k Pythia dataset from Zenodo."""
