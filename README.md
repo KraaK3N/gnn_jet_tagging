@@ -123,10 +123,6 @@ gnn_jet_tagging/
 │       └── seed.py         # Deterministic seed configuration
 ├── tests/
 │   └── test_graph_building.py # Unit tests (invariance, masking, shapes)
-├── presentation/
-│   ├── slides.pdf          # 5-slide Beamer presentation deck
-│   ├── slides.tex          # LaTeX source
-│   └── script.txt          # Word-for-word 2.5-minute video presentation script
 └── report/
     ├── final_report.pdf    # Compiled academic Project Report (4 pages)
     └── final_report.tex    # LaTeX source

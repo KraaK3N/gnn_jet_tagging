@@ -160,8 +160,23 @@ ParticleNet (EdgeConv) & 78.2--79.8\% & 0.845--0.858 & $\sim 25$ & --- \\
 \label{fig:roc}
 \end{figure}
 
+\begin{figure}[t]
+\centering
+\includegraphics[width=0.98\columnwidth]{../results/figures/training_history.png}
+\caption{Training and validation loss (left) and accuracy (right) trajectories across 15 epochs on the 100,000-jet Pythia dataset.}
+\label{fig:history}
+\end{figure}
+
+\subsection{Training Dynamics and Convergence}
+Figure~\ref{fig:history} compares the learning curves across 15 epochs on the 100,000-jet Pythia dataset:
+\begin{itemize}
+    \item \textbf{Deep Sets Saturation:} Deep Sets exhibits rapid per-epoch iterations ($\sim 4.2$\,s on T4 GPU). However, after initial optimization, validation loss plateaus around $0.475$ and validation accuracy flattens at $77.37\%$ (Epoch 12). While training loss continues to drop ($0.4990 \to 0.4332$), validation metrics saturate, reflecting the fundamental expressive capacity limit of independent constituent pooling.
+    \item \textbf{EdgeConv Stability and Generalization:} Dynamic EdgeConv exhibits smooth, monotonic optimization. Training loss declines steadily from $0.4816$ to $0.4277$, and validation loss decreases to $0.4349$, achieving $80.39\%$ validation accuracy. The dynamic re-clustering of $k=16$ nearest neighbors in latent space provides strong regularization, enabling deeper relational feature extraction without severe overfitting.
+    \item \textbf{Model Checkpointing:} In both models, automated validation checkpointing saves the optimal weights ($E=12$ for Deep Sets, $E=11$ for EdgeConv), preventing overfitted terminal weights from degrading test generalization.
+\end{itemize}
+
 \subsection{Discussion: Expressiveness vs.\ Computational Cost}
-As demonstrated in Table~\ref{tab:tier1}, Table~\ref{tab:tier2}, and Figure~\ref{fig:roc}, comparing the two paradigms reveals consistent findings across both verification and full collider benchmarks:
+As demonstrated in Table~\ref{tab:tier1}, Table~\ref{tab:tier2}, and Figures~\ref{fig:roc}--\ref{fig:history}, comparing the two paradigms reveals consistent findings across both verification and full collider benchmarks:
 \begin{itemize}
     \item \textbf{Dynamic EdgeConv Dominates Expressiveness:} By computing relative coordinate and latent differences $\mathbf{x}_j - \mathbf{x}_i$, EdgeConv dynamically groups collinear fragments and clusters. On the 100,000 Pythia collider dataset, EdgeConv achieves \textbf{80.65\% test accuracy}, outperforming the Deep Sets baseline by \textbf{+3.20\%}.
     \item \textbf{Deep Sets Delivers Exceptional Latency:} Treating constituents independently yields strict $O(N)$ scaling. Deep Sets achieves \textbf{0.030\,ms per jet on GPU} ($0.18$\,ms on CPU), running \textbf{$7.1\times$ to $14\times$ faster} than EdgeConv with $38\%$ fewer parameters. For high-rate LHC trigger systems operating at 40\,MHz with strict sub-millisecond latency budgets, Deep Sets represents a compelling operational choice.

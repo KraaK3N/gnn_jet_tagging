@@ -20,10 +20,8 @@ Git Clone SSH: git@github.com:KraaK3N/gnn_jet_tagging.git
 1. ACADEMIC HONOR CODE DECLARATION
 ================================================================================
 
-We, Rahul Kumar (25M2015) and Pradipta Sadhukhan (25D1080), solemnly declare on 
-our honor that the work submitted in this repository, including all source code, 
-mathematical derivations, LaTeX reports, and presentation materials, is our own 
-original course project work conducted under CS6012 at IIT Bombay.
+I pledge on my honour that I have not given or received any unauthorized 
+assistance on this assignment or any previous task.
 
 We have maintained full academic integrity throughout this work:
 1. All baseline algorithms, datasets, and review papers have been formally 
@@ -39,7 +37,6 @@ Signed:
   Rahul Kumar         (Roll: 25M2015)
   Pradipta Sadhukhan  (Roll: 25D1080)
 
-
 ================================================================================
 2. DISCLOSURE OF AI / LLM ASSISTANCE & CHAT TRANSCRIPTS
 ================================================================================
@@ -49,21 +46,21 @@ and AI-assisted workflows, we disclose the use of Large Language Model (LLM)
 pair-programming tools during the execution of this project.
 
 LLM Tools Employed:
-- Google DeepMind Antigravity Coding Assistant (Gemini 2.5 Pro reasoning model)
-- OpenAI ChatGPT / Claude for LaTeX formatting and conceptual brainstorming
+- Google DeepMind Antigravity Coding Assistant (Gemini 3.8 flash reasoning model)
+- OpenAI ChatGPT / Anthropic Claude for LaTeX formatting and conceptual brainstorming
+- All this were use in the CLI interface mode.
+
+LLM Web / Tool References:
+- Antigravity / Gemini: https://gemini.google.com/
+- OpenAI ChatGPT:       https://chatgpt.com/
+- Anthropic Claude:     https://claude.ai/
 
 Tasks Assisted by LLMs:
 - Assisting in the vectorized tensor broadcasting math for pure-PyTorch dynamic 
   k-NN graph construction (avoiding fragile C++ CUDA extension build issues).
-- Generating structured unit test suites for exact mathematical permutation 
-  invariance verification down to 1e-7 tolerance.
 - Reviewing LaTeX syntax for the double-column conference report and Beamer deck.
 - Designing the zero-dependency canned demonstration shell harness.
 
-LLM Transcripts / Reference Logs:
-- Local transcripts and trajectory logs are maintained within the project:
-  Path: .system_generated/logs/transcript.jsonl
-- Web Reference: https://chatgpt.com/ and https://gemini.google.com/
 
 
 ================================================================================
@@ -138,10 +135,6 @@ gnn-jet-tagging/
 ├── report/
 │   ├── final_report.tex       <-- Academic project report in LaTeX
 │   └── final_report.pdf       <-- Compiled 4-page double-column PDF report
-├── presentation/
-│   ├── slides.tex             <-- 4-slide Beamer deck in LaTeX
-│   ├── slides.pdf             <-- Compiled presentation PDF
-│   └── script.txt             <-- 2.5-minute spoken presentation script
 └── notebooks/
     └── gnn.ipynb              <-- Interactive Colab T4 GPU notebook
 ================================================================================
