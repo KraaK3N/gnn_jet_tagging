@@ -11,5 +11,14 @@ set -e
 SCRIPT_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
 cd "$SCRIPT_DIR"
 
+# Automatically detect and use virtual environment if available
+if [ -f ".venv/bin/python3" ]; then
+    PYTHON_CMD=".venv/bin/python3"
+elif [ -f "venv/bin/python3" ]; then
+    PYTHON_CMD="venv/bin/python3"
+else
+    PYTHON_CMD="python3"
+fi
+
 # Execute the self-contained demo
-python3 demo.py "$@"
+"$PYTHON_CMD" demo.py "$@"
